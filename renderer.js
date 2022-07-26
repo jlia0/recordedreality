@@ -5,6 +5,8 @@
 // selectively enable features needed in the rendering
 // process.
 const THREE = require("three")
+const KinectAzure = require('kinect-azure');
+
 
 // const statsRenderer = new Stats();
 // statsRenderer.dom.style.cssText = '';
@@ -13,7 +15,6 @@ const THREE = require("three")
 // statsKinect.dom.style.cssText = '';
 // document.getElementById('statsKinect').appendChild(statsKinect.dom);
 
-const KinectAzure = require('kinect-azure');
 const kinect = new KinectAzure();
 
 const canvas = document.getElementById('outputCanvas');

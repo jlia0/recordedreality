@@ -17,9 +17,10 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^19.0.8"
+    "electron": "^9.4.0"
   },
   "dependencies": {
+    "kinect-azure": "^0.3.0",
     "three": "^0.120.0"
   }
 }
