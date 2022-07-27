@@ -46,7 +46,7 @@ const camera = new THREE.OrthographicCamera(canvas.clientWidth / -5, canvas.clie
 camera.position.set(0, 0, -2000);
 // camera.lookAt(new THREE.Vector3(0, 0, 0));
 camera.lookAt(scene.position)
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new THREE.MapControls(camera, renderer.domElement);
 
 const geom = new THREE.Geometry();
 const material = new THREE.PointsMaterial({
@@ -55,23 +55,8 @@ const material = new THREE.PointsMaterial({
     // transparent: true
 });
 
-const traj = new THREE.Geometry();
-const traj_material = new THREE.PointsMaterial({
-    size: 15,
-    vertexColors: true,
-    // transparent: true
-});
-
-
 const DEPTH_WIDTH = 640;
 const DEPTH_HEIGHT = 576;
-
-
-const part = new THREE.Vector3(80, -160, 540);
-traj.vertices.push(part);
-const color = new THREE.Color(0xFF0000);
-traj.colors.push(color);
-
 
 const numPoints = DEPTH_WIDTH * DEPTH_HEIGHT;
 for (let i = 0; i < numPoints; i++) {
@@ -85,10 +70,8 @@ for (let i = 0; i < numPoints; i++) {
 
 geom.center();
 const cloud = new THREE.Points(geom, material);
-const trajectory = new THREE.Points(traj, traj_material);
 
 scene.add(cloud);
-scene.add(trajectory);
 
 const depthModeRange = kinect.getDepthModeRange(KinectAzure.K4A_DEPTH_MODE_NFOV_UNBINNED);
 
@@ -230,8 +213,26 @@ function getCenterPoint(points) {
 
     //console.log(geom.vertices, centerX, centerY, depthZ)
 
-    const actualx = (pos % DEPTH_WIDTH) - DEPTH_WIDTH * 0.5;
-    const actualy = DEPTH_HEIGHT / 2 - Math.floor(pos / DEPTH_WIDTH);
+    const actualX = (pos % DEPTH_WIDTH) - DEPTH_WIDTH * 0.5;
+    const actualY = DEPTH_HEIGHT / 2 - Math.floor(pos / DEPTH_WIDTH);
+
+
+    let traj = new THREE.Geometry();
+    let traj_material = new THREE.PointsMaterial({
+        size: 5,
+        vertexColors: true,
+        // transparent: true
+    });
+
+    const part = new THREE.Vector3(actualX, actualY, depthZ);
+    traj.vertices.push(part);
+    const color = new THREE.Color(0xFF0000);
+    traj.colors.push(color);
+    // traj.verticesNeedUpdate = true;
+
+    let trajectory = new THREE.Points(traj, traj_material);
+    scene.add(trajectory)
+
 
     if (depthZ > 10) {
         document.getElementById("pos").innerHTML = `(${centerX}, ${centerY}, ${depthZ})`;
