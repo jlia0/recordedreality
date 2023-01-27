@@ -21,6 +21,6 @@
   },
   "dependencies": {
     "kinect-azure": "^0.3.0",
-    "three": "^0.120.0"
+    "three": "^0.149.0"
   }
 }
